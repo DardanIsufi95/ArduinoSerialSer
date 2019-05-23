@@ -11,6 +11,10 @@ app.get('/public', function(req, res){
     res.sendFile(__dirname+"/index.html");
 });
 
+app.get('/public', function(req, res){
+    res.send("ok");
+});
+
 
 
 
