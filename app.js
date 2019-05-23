@@ -11,7 +11,7 @@ app.get('/public', function(req, res){
     res.sendFile(__dirname+"/index.html");
 });
 
-app.get('/public', function(req, res){
+app.get('/test', function(req, res){
     res.send("ok");
 });
 
@@ -19,10 +19,6 @@ app.get('/public', function(req, res){
 
 
 io.sockets.on('connection', function (socket) {
-//   socket.on('sensors', function (data) {
-//     socket.emit('data', 'Im Node');
-//   });
-
     socket.on('WTN', function (data) {
         io.sockets.emit("NTC" , data);
     });
