@@ -23,6 +23,7 @@ def connect():
 connect()
 ser = serial.Serial(arduino_ports[0])
 ser.baudrate = 9200
+ser.open()
 
 sio = socketio.Client()
 sio.connect('http://test-dardan-test.1d35.starter-us-east-1.openshiftapps.com')	
