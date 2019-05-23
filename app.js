@@ -7,7 +7,10 @@ var server = require('http').createServer(app).listen(3000 , function(){
 var io = require('socket.io').listen(server);
 
 //Format 
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.get('/public', function(req, res){
+    res.sendFile("./index.html");
+});
+
 
 
 
