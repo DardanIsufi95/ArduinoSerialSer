@@ -20,6 +20,7 @@ def connect():
 		time.sleep(1.5)
 		connect()
 
+connect()
 ser = serial.Serial(arduino_ports[0])
 ser.baudrate = 9200
 
@@ -30,17 +31,20 @@ l = ""
 
 @sio.on('NTC')
 def on_NTC(data):
-	d = string.strip(str(data))
-    if(d != l)
+	d = str(data)
+	if(d != l)
 		l = d
 		ser.write(d.encode())
+		print(d)
 		
 		
 
 		
 		
 		
-def send_data()
+def send_data(data)
+	if(len(data) == 12)
+	sio.emit('CTN' , data)
 
 def ReadSerial(ser):
 	while True:
