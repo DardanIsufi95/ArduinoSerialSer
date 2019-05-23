@@ -1,8 +1,8 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var server = require('http').createServer(app).listen(3000 , function(){
-    console.log('Express server listening on port 3000!');
+var server = require('http').createServer(app).listen(8080 , function(){
+    console.log('Express server listening on port 8080!');
 });
 var io = require('socket.io').listen(server);
 
