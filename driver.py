@@ -3,7 +3,7 @@ import serial.tools.list_ports
 import time
 import threading
 import socketio
-
+# pip install "python-socketio[client]"
 
 def connect():
 	arduino_ports = [
