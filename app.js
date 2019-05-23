@@ -8,7 +8,7 @@ var io = require('socket.io').listen(server);
 
 //Format 
 app.get('/public', function(req, res){
-    res.sendFile("./index.html");
+    res.sendFile(__dirname+"/index.html");
 });
 
 
