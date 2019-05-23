@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            var socket = io();
+            var buzz = 0;
+            var colorstring = "000000000";
+
+            function zeroFill( number, width )
+            {
+                width -= number.toString().length;
+                if ( width > 0 )
+                {
+                    return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+                }
+                return number + "";
+            }
+            socket.on('NTW' , function(data){
+                $("#T").text(data.split(" ")[0]);
+                $("#H").text(data.split(" ")[1]);
+            });
+
+
+
+            $("#on").click(()=>{
+                socket.emit('WTN', "$111"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
+                buzz = 1;
+            });
+            $("#off").click(()=>{
+                socket.emit('WTN', "$000"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
+                buzz = 1;
+            });
+            
+            $("#color").css("background-color","rgb("+$("#R").val()+","+$("#G").val()+","+$("#B").val()+")");
+            $(".color").change(function(){
+                var color = "rgb("+$("#R").val()+","+$("#G").val()+","+$("#B").val()+")";
+                $("#color").css("background-color",color);
+                if(buzz==1)
+                    socket.emit('WTN', "$111"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
+                else
+                    socket.emit('WTN', "$000"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
+            });
+        });
+    </script>
+    <style>
+        .container{
+            width: 60%;
+            margin: auto;
+        }
+        .box{
+            text-align: center;
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        span{
+            font-weight: bold;
+            color: #333;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+        .subbox-L{
+            display: inline-block;
+            width: 29%;
+            text-align: left;
+        }
+        .subbox-R{
+            display: inline-block;
+            width: 70%;
+        }
+        .subbox-L span{
+            display: block;
+            line-height: 30px;
+        }
+        .subbox-R input{
+            display: block;
+            line-height: 40px;
+            width: 100%;
+            height: 30px;
+        }
+        #color{
+            margin-top: 70px;
+            width: 100%;
+            height: 70px;
+            clear: both;
+            overflow: hidden;
+        }
+        .fixed{
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+    </style>
+    <title>Dardan Isufi</title>
+</head>
+<body>
+
+
+
+    <div class="container">
+        <div class="box">
+            <Span>Buzzer</Span>
+            <button class="btn btn-success" id="on">ON</button>
+            <button class="btn btn-danger" id="off">OFF</button>
+        </div>
+        <hr>
+        <div class="box">
+            <div class="subbox-L">
+                <span>Red</span>
+                <span>Green</span>
+                <span>Blue</span>
+            </div>
+            <div class="subbox-R">
+                <input class="color" type="range" id="R" min="0" max="255">
+                <input class="color" type="range" id="G" min="0" max="255">
+                <input class="color" type="range" id="B" min="0" max="255">
+            </div>
+            <div id="color"></div>
+        </div>
+    </div>
+
+    <div class="fixed">
+        <span>Temperature :</span><span id="T"></span><span>C</span><br>
+        <span>Humidity    :</span><span id="H"></span><span>%</span>
+    </div>
+</body>
+</html>
