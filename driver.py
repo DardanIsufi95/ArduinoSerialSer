@@ -5,26 +5,19 @@ import threading
 import socketio
 
 
-def connect():
-    arduino_ports = [
-        p.device
-        for p in serial.tools.list_ports.comports()
-        if 'Arduino' in p.description
-    ]
-
-    if len(arduino_ports) > 1:
-        print('Multiple Arduinos found - using the first')
-
-    if not arduino_ports:
-        print("No Arduino found")
-        time.sleep(1.5)
-        connect()
-
-
-connect()
-ser = serial.Serial(arduino_ports[0])
-ser.baudrate = 9200
-ser.open()
+conn = False
+ser = serial.Serial
+while not conn:
+    print("Waiting for Device...")
+    time.sleep(1.5)
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        if "85632313039351B02110" == p.serial_number:
+            ser = serial.Serial(p.device , 9200)
+            ser.baudrate = 9200
+            conn = True
+            time.sleep(2)
+            print("Connected")
 
 sio = socketio.Client()
 sio.connect('http://test-dardan-test.1d35.starter-us-east-1.openshiftapps.com')
