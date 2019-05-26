@@ -36,11 +36,11 @@ def send_data(data):
     sio.emit('CTN', data)
 
 
-def ReadSerial(ser):
+def ReadSerial(_ser):
     while True:
-        reading = ser.readline().decode()
+        reading = _ser.readline().decode("ascii")
         send_data(reading)
 
 
-thread = threading.Thread(target=ReadSerial, args=(ser))
+thread = threading.Thread(target=ReadSerial, args=(ser,))
 thread.start()
