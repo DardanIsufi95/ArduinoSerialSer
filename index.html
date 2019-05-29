@@ -49,6 +49,9 @@
                 else
                     socket.emit('WTN', "$000"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
             });
+            $("#G").val(0);
+            $("#R").val(0);
+            $("#B").val(0);
         });
     </script>
     <style>
