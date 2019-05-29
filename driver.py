@@ -1,4 +1,3 @@
-import serial
 import serial.tools.list_ports
 import time
 import threading
@@ -13,16 +12,15 @@ while not conn:
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
         if "85632313039351B02110" == p.serial_number:
-            ser = serial.Serial(p.device , 9200)
-            ser.baudrate = 9200
+            ser = serial.Serial(p.device , 9600)
             conn = True
             time.sleep(2)
             print("Connected")
 
-sio = socketio.Client()
-sio.connect('http://test-dardan-test.1d35.starter-us-east-1.openshiftapps.com')
 
-l = ""
+
+sio = socketio.Client()
+sio.connect('http://test-arduino-test.1d35.starter-us-east-1.openshiftapps.com')
 
 
 @sio.on('NTC')
@@ -36,11 +34,14 @@ def send_data(data):
     sio.emit('CTN', data)
 
 
-def ReadSerial(_ser):
-    while True:
-        reading = _ser.readline().decode("ascii")
-        send_data(reading)
 
+def SreialRead():
+    while 1:
+        if ser.in_waiting:
+            reading = ser.readline().decode().rstrip()
+            print(reading)
+            send_data(reading)
 
-thread = threading.Thread(target=ReadSerial, args=(ser,))
+thread = threading.Thread(target=SreialRead())
 thread.start()
+
