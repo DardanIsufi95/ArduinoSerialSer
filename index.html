@@ -37,7 +37,7 @@
             });
             $("#off").click(()=>{
                 socket.emit('WTN', "$000"+zeroFill($("#R").val(),3)+zeroFill($("#G").val(),3)+zeroFill($("#B").val(),3)+"$");
-                buzz = 1;
+                buzz = 0;
             });
             
             $("#color").css("background-color","rgb("+$("#R").val()+","+$("#G").val()+","+$("#B").val()+")");
